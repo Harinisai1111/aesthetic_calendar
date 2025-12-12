@@ -1,0 +1,8 @@
+{
+  "name": "Aesthetic Calendar Memory",
+  "description": "A beautiful calendar-based diary to store memories with photos, voice notes, and mood tracking.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}
