@@ -245,7 +245,7 @@ export const EntryForm: React.FC<EntryFormProps> = ({ date, userId, existingEntr
             <div className="space-y-3">
               <label className="text-xs font-bold uppercase tracking-widest text-stone-400 block">Soundscape</label>
 
-              <VoiceRecorder existingNote={voiceNote} onSave={setVoiceNote} />
+              <VoiceRecorder userId={userId} getToken={getToken} existingNote={voiceNote} onSave={setVoiceNote} />
 
               <div className="flex items-center gap-3 p-3 bg-stone-50 rounded-xl border border-stone-100 focus-within:border-stone-300 transition-colors">
                 <Music size={18} className="text-stone-400" />

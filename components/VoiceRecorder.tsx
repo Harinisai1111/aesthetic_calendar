@@ -1,19 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, Square, Play, Pause, Trash2 } from 'lucide-react';
 import { VoiceNote } from '../types';
+import { uploadFile } from '../services/storage';
 
 interface VoiceRecorderProps {
+  userId: string;
+  getToken: (options: { template: string }) => Promise<string | null>;
   existingNote?: VoiceNote;
   onSave: (note: VoiceNote | undefined) => void;
 }
 
-export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ existingNote, onSave }) => {
+export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ userId, getToken, existingNote, onSave }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [recordingTime, setRecordingTime] = useState(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(existingNote?.url || null);
-  
+  const [isUploading, setIsUploading] = useState(false);
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -36,18 +40,32 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ existingNote, onSa
         audioChunksRef.current.push(event.data);
       };
 
-      mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-        const url = URL.createObjectURL(audioBlob);
-        setAudioUrl(url);
-        setDuration(recordingTime);
-        onSave({ id: Date.now().toString(), url, duration: recordingTime });
+      mediaRecorder.onstop = async () => {
+        setIsUploading(true);
+        try {
+          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+          const audioFile = new File([audioBlob], `voice-${Date.now()}.webm`, { type: 'audio/webm' });
+
+          const token = await getToken({ template: 'supabase' });
+          if (!token) throw new Error('No auth token');
+
+          const url = await uploadFile(audioFile, 'voice-notes', userId, token);
+
+          setAudioUrl(url);
+          setDuration(recordingTime);
+          onSave({ id: Date.now().toString(), url, duration: recordingTime });
+        } catch (error) {
+          console.error('Error uploading voice note:', error);
+          alert('Failed to upload voice note. Please try again.');
+        } finally {
+          setIsUploading(false);
+        }
       };
 
       mediaRecorder.start();
       setIsRecording(true);
       setRecordingTime(0);
-      
+
       timerRef.current = setInterval(() => {
         setRecordingTime(prev => prev + 1);
       }, 1000);
@@ -102,7 +120,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ existingNote, onSa
   return (
     <div className="flex items-center gap-4 p-3 bg-stone-50 rounded-xl border border-stone-200">
       {!audioUrl && !isRecording && (
-        <button 
+        <button
           onClick={startRecording}
           type="button"
           className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-full hover:bg-red-100 transition-colors"
@@ -126,23 +144,23 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ existingNote, onSa
 
       {audioUrl && !isRecording && (
         <div className="flex items-center gap-3 w-full">
-          <button 
+          <button
             onClick={togglePlayback}
             type="button"
             className="p-3 bg-stone-800 text-white rounded-full hover:bg-black transition-colors"
           >
             {isPlaying ? <Pause size={18} /> : <Play size={18} />}
           </button>
-          
+
           {/* Faux Waveform */}
           <div className="flex-1 flex items-center gap-[2px] h-8">
-             {Array.from({ length: 20 }).map((_, i) => (
-               <div 
-                  key={i} 
-                  className={`w-1 rounded-full ${isPlaying ? 'animate-pulse bg-stone-800' : 'bg-stone-300'}`}
-                  style={{ height: `${30 + Math.random() * 70}%`, animationDelay: `${i * 0.05}s` }}
-               />
-             ))}
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div
+                key={i}
+                className={`w-1 rounded-full ${isPlaying ? 'animate-pulse bg-stone-800' : 'bg-stone-300'}`}
+                style={{ height: `${30 + Math.random() * 70}%`, animationDelay: `${i * 0.05}s` }}
+              />
+            ))}
           </div>
 
           <span className="text-xs font-mono text-stone-500">{formatTime(duration)}</span>
