@@ -271,6 +271,18 @@ const App: React.FC = () => {
           )}
         </div>
       </main>
+      {/* SEO Content Section (for Google) */}
+      <section className="max-w-3xl mx-auto mt-24 mb-16 px-4 text-center text-stone-600">
+        <h2 className="text-2xl font-serif mb-4 text-stone-700">
+          Aesthetic Calendar Journal
+        </h2>
+        <p className="leading-relaxed">
+          A digital calendar journal designed to capture daily memories with photos,
+          music, moods, captions, and voice notes — all organized beautifully by date.
+          This aesthetic memory calendar helps you relive moments in a calm,
+          visually pleasing way.
+        </p>
+      </section>
 
       {/* Modals */}
       <AnimatePresence>
