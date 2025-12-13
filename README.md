@@ -1,159 +1,228 @@
 # Aesthetic Calendar Memory 📅✨
 
-A beautiful, aesthetic calendar application for capturing and preserving your daily memories with photos, music, and voice notes.
+A **calendar-based digital journaling web app** that lets users capture daily memories with photos, music, moods, captions, and voice notes — all organized beautifully by date.
 
-## Features
+🔗 **Live Demo**: [https://aestheticcalendar-tau.vercel.app](https://aestheticcalendar-tau.vercel.app)
 
-- 🎨 **Beautiful UI** - Aesthetic design with mood-based color themes
-- 🔐 **Secure Authentication** - Powered by Clerk
-- 💾 **Cloud Database** - Data stored securely in Supabase
-- 📸 **Photo Collages** - Add up to 6 photos per day with drag-and-drop positioning
-- 🎵 **Music Integration** - Auto-playing YouTube and Spotify embeds
-- 🎤 **Voice Notes** - Record audio memories
-- 📊 **Multiple Views** - Month and year views with highlights
-- 🏷️ **Hashtags & Moods** - Organize and categorize your memories
+---
 
-## Prerequisites
+## 🌸 Why Aesthetic Calendar Memory?
 
-- Node.js (v16 or higher)
-- A [Clerk](https://clerk.com) account (free)
-- A [Supabase](https://supabase.com) account (free)
+Traditional journaling apps focus on text.
+**Aesthetic Calendar Memory** focuses on *emotion, visuals, and time*.
 
-## Setup Instructions
+It transforms a calendar into a personal memory space where each date becomes a story — blending design, media, and reflection.
 
-### 1. Clone and Install
+---
+
+## ✨ Features
+
+* 🎨 **Aesthetic UI** — Minimal, calming design with mood-based color accents
+* 🔐 **Authentication** — Secure login & signup using Clerk
+* 💾 **Cloud Storage** — User data stored securely with Supabase (PostgreSQL)
+* 📸 **Photo Collages** — Upload up to 6 photos per day with visual layouts
+* 🎵 **Music Embeds** — Attach YouTube / Spotify links to memories
+* 🎤 **Voice Notes** — Record and store audio memories
+* 📆 **Calendar Views** — Month and Year views with interactive navigation
+* ✨ **Highlights** — Monthly & yearly memory recaps
+* 🏷️ **Moods & Tags** — Organize memories emotionally
+
+---
+
+## 🧠 Tech Stack
+
+* **Frontend**: React + TypeScript + Vite
+* **Styling**: Tailwind CSS
+* **Authentication**: Clerk
+* **Database**: Supabase (PostgreSQL + RLS)
+* **Animations**: Framer Motion
+* **Icons**: Lucide React
+* **Deployment**: Vercel
+
+---
+
+## 📊 Analytics & SEO
+
+* Google Analytics (GA4) integrated
+* Google Search Console verified
+* Sitemap submitted for faster indexing
+* SEO-optimized metadata & content
+
+---
+
+## 🚀 Getting Started (Local Setup)
+
+### Prerequisites
+
+* Node.js v16+
+* Clerk account (free)
+* Supabase account (free)
+
+---
+
+### 1️⃣ Install Dependencies
 
 ```bash
-# Install dependencies
 npm install
 ```
 
-### 2. Set Up Clerk Authentication
+---
 
-1. Go to [https://clerk.com](https://clerk.com) and create an account
-2. Create a new application
-3. Choose your sign-in methods (Email, Google, etc.)
-4. Copy your **Publishable Key** from the API Keys page
+### 2️⃣ Set Up Clerk
 
-### 3. Set Up Supabase Database
+1. Create a project at [https://clerk.com](https://clerk.com)
+2. Enable sign-in methods (Email / Google)
+3. Copy your **Publishable Key**
 
-1. Go to [https://supabase.com](https://supabase.com) and create an account
-2. Create a new project
-3. Wait for the project to be ready (1-2 minutes)
-4. Go to **Settings** → **API** and copy:
-   - **Project URL**
-   - **anon public** key
+---
 
-### 4. Create Database Tables
+### 3️⃣ Set Up Supabase
 
-1. In your Supabase dashboard, go to **SQL Editor**
-2. Click **"+ New query"**
-3. Copy and paste the contents of `supabase/schema.sql`
-4. Click **"Run"** to create the tables
-5. Verify tables were created in **Table Editor**
+1. Create a project at [https://supabase.com](https://supabase.com)
+2. Go to **Settings → API**
+3. Copy:
 
-### 5. Configure Environment Variables
+   * Project URL
+   * anon public key
 
-1. Create a `.env.local` file in the project root (or use the existing one)
-2. Add your credentials:
+---
 
-```env
-# Clerk Authentication
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_clerk_key_here
+### 4️⃣ Create Database Tables
 
-# Supabase Database
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+1. Open **Supabase → SQL Editor**
+2. Run the schema from:
+
+```bash
+supabase/schema.sql
 ```
 
-### 6. Run the Application
+3. Ensure Row Level Security (RLS) is enabled
+
+---
+
+### 5️⃣ Configure Environment Variables
+
+Create a `.env.local` file:
+
+```env
+# Clerk
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
+
+# Supabase
+VITE_SUPABASE_URL=https://xxxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=xxxxx
+```
+
+---
+
+### 6️⃣ Run Locally
 
 ```bash
 npm run dev
 ```
 
-The app will open at `http://localhost:5173`
+App runs at:
 
-## Building for Production
+```
+http://localhost:5173
+```
+
+---
+
+## 🏗️ Build for Production
 
 ```bash
 npm run build
 ```
 
-The production-ready files will be in the `dist` folder.
-
-## Deployment
-
-This app can be deployed to:
-
-- **Vercel** (Recommended)
-  1. Push your code to GitHub
-  2. Import the repository in Vercel
-  3. Add environment variables in Vercel dashboard
-  4. Deploy!
-
-- **Netlify**
-  1. Push your code to GitHub
-  2. Import the repository in Netlify
-  3. Add environment variables in Netlify dashboard
-  4. Deploy!
-
-**Important**: Make sure to add all environment variables (`VITE_CLERK_PUBLISHABLE_KEY`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) in your deployment platform's settings.
-
-## Usage
-
-1. **Sign Up/Sign In** - Create an account using Clerk authentication
-2. **Create Entries** - Click on any day to create a memory
-3. **Add Photos** - Upload up to 6 photos and arrange them in a collage
-4. **Add Music** - Paste a YouTube or Spotify link to attach a song
-5. **Record Voice Notes** - Capture audio memories
-6. **View Memories** - Click on days with entries to view them
-7. **Highlights** - Use "Month Recap" or "Year Recap" to see all your memories
-
-## Tech Stack
-
-- **Frontend**: React + TypeScript + Vite
-- **Styling**: Tailwind CSS
-- **Authentication**: Clerk
-- **Database**: Supabase (PostgreSQL)
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-
-## Database Schema
-
-The app uses two main tables:
-
-- **users** - Stores user profiles (synced with Clerk)
-- **entries** - Stores calendar entries with photos, music, voice notes, etc.
-
-Row Level Security (RLS) is enabled to ensure users can only access their own data.
-
-## Troubleshooting
-
-### "Missing Clerk Publishable Key" error
-- Make sure you've added `VITE_CLERK_PUBLISHABLE_KEY` to your `.env.local` file
-- Restart the dev server after adding environment variables
-
-### "Missing Supabase environment variables" error
-- Make sure you've added both `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` to your `.env.local` file
-- Restart the dev server after adding environment variables
-
-### Database errors
-- Make sure you've run the `supabase/schema.sql` file in your Supabase SQL Editor
-- Check that RLS policies are enabled in Supabase
-
-### Music not auto-playing
-- Some browsers block autoplay by default - users may need to interact with the page first
-- YouTube videos with restricted embedding won't auto-play (use the fallback link)
-
-## License
-
-MIT
-
-## Support
-
-For issues or questions, please open an issue on GitHub.
+Production files will be generated in the `dist/` folder.
 
 ---
 
-Made with ❤️ using React, Clerk, and Supabase
+## 🌍 Deployment
+
+### Vercel (Recommended)
+
+1. Push project to GitHub
+2. Import repo into Vercel
+3. Add environment variables
+4. Deploy 🚀
+
+### Netlify
+
+1. Push project to GitHub
+2. Import repo into Netlify
+3. Add environment variables
+4. Deploy
+
+⚠️ **Important**:
+Environment variables must be added in the hosting dashboard.
+
+---
+
+## 🧪 Usage Guide
+
+1. Sign up / log in
+2. Click a date to create a memory
+3. Add photos, music, voice notes & mood
+4. Revisit memories via calendar or highlights
+5. Explore monthly & yearly recaps
+
+---
+
+## 🗄️ Database Overview
+
+### Tables
+
+* **users** — synced from Clerk
+* **entries** — calendar-based memory entries
+
+🔒 Row Level Security ensures users can access **only their own data**.
+
+---
+
+## 🛠️ Troubleshooting
+
+### Clerk key missing
+
+* Check `VITE_CLERK_PUBLISHABLE_KEY`
+* Restart dev server
+
+### Supabase errors
+
+* Verify keys
+* Ensure schema is applied
+* Check RLS policies
+
+### Media autoplay issues
+
+* Browser autoplay restrictions apply
+* User interaction may be required
+
+---
+
+## 📌 Future Enhancements
+
+* Custom domain support
+* Public shareable memories
+* Export memories as images or PDFs
+* AI-generated memory summaries
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+## 💙 Support
+
+If you find this project useful or have suggestions:
+
+* Open an issue
+* Star the repo ⭐
+
+---
+
+**Built with care using React, Clerk & Supabase**
